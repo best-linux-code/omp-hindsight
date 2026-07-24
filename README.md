@@ -12,7 +12,7 @@ Claude Code–aligned **`agent_knowledge_*`** tools + automatic recall / retain 
 
 | Area | Behavior |
 |------|----------|
-| Auto-recall | On each model turn (`context` hook), injects `<hindsight_memories>` into the latest user message |
+| Auto-recall | On each model turn (`context` hook), injects `<hindsight_memories>` (default fact type: `observation`) |
 | Auto-retain | Every N user turns on `agent_end`, and force-flush on `session_shutdown` |
 | Compaction | Re-injects a compact memory block via `session.compacting` |
 | Tools | 11 Claude-style knowledge tools (pages + recall/reflect + ingest) |
@@ -140,6 +140,7 @@ Options can be passed to `createOmpHindsightExtension(options)` or via env:
 | `HINDSIGHT_RETAIN_EVERY_N_TURNS` | `10` | User turns between retains |
 | `HINDSIGHT_RETAIN_OVERLAP_TURNS` | `2` | Overlap previous user turns |
 | `HINDSIGHT_RECALL_BUDGET` | `mid` | `low` \| `mid` \| `high` |
+| `HINDSIGHT_RECALL_TYPES` | `observation` | Comma list of fact types; `all` / `*` = no filter |
 | `HINDSIGHT_REFLECT_BUDGET` | `low` | Reflect budget |
 | `HINDSIGHT_RETAIN_CONTEXT` | `omp` | Retain `context` field |
 | `HINDSIGHT_ENABLE_KNOWLEDGE_TOOLS` | `true` | Register tools |

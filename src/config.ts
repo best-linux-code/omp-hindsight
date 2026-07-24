@@ -114,6 +114,18 @@ function asBudget(raw: string | undefined, fallback: Budget): Budget {
 	return fallback;
 }
 
+const DEFAULT_RECALL_TYPES: readonly string[] = ["observation"];
+
+function parseRecallTypes(raw: string | undefined): readonly string[] | undefined {
+	if (raw === undefined) return undefined;
+	const trimmed = raw.trim();
+	if (trimmed === "" || trimmed === "all" || trimmed === "*") return [];
+	return trimmed
+		.split(/[,\s]+/)
+		.map((t) => t.trim())
+		.filter((t) => t.length > 0);
+}
+
 /** Load config: options override env; env overrides defaults. */
 export function loadConfig(options: OmpHindsightOptions = {}): OmpHindsightConfig {
 	const apiUrl =
@@ -152,7 +164,10 @@ export function loadConfig(options: OmpHindsightOptions = {}): OmpHindsightConfi
 		retainOverlapTurns: options.retainOverlapTurns ?? envInt("HINDSIGHT_RETAIN_OVERLAP_TURNS", 2),
 		recallBudget: asBudget(options.recallBudget ?? envString("HINDSIGHT_RECALL_BUDGET"), "mid"),
 		reflectBudget: asBudget(options.reflectBudget ?? envString("HINDSIGHT_REFLECT_BUDGET"), "low"),
-		recallTypes: options.recallTypes ?? [],
+		recallTypes:
+			options.recallTypes ??
+			parseRecallTypes(envString("HINDSIGHT_RECALL_TYPES")) ??
+			DEFAULT_RECALL_TYPES,
 		retainContext: options.retainContext ?? envString("HINDSIGHT_RETAIN_CONTEXT") ?? "omp",
 		enableKnowledgeTools:
 			options.enableKnowledgeTools ?? envBool("HINDSIGHT_ENABLE_KNOWLEDGE_TOOLS", true),
