@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 — 2026-07-24
+
+### Added
+
+- `injectToast` / `HINDSIGHT_INJECT_TOAST` (default `true`): on successful auto-recall inject, call `ctx.ui.notify` so pi-web NoticeShelf (and TUI status) show e.g. `omp-hindsight · recalled N · bank=…`
+- Silent when 0 hits or same-query fingerprint skip (tool-loop)
+
 ## 0.1.1 — 2026-07-24
 
 ### Changed

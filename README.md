@@ -144,6 +144,7 @@ Options can be passed to `createOmpHindsightExtension(options)` or via env:
 | `HINDSIGHT_REFLECT_BUDGET` | `low` | Reflect budget |
 | `HINDSIGHT_RETAIN_CONTEXT` | `omp` | Retain `context` field |
 | `HINDSIGHT_ENABLE_KNOWLEDGE_TOOLS` | `true` | Register tools |
+| `HINDSIGHT_INJECT_TOAST` | `true` | Toast on successful auto-recall inject (`ctx.ui.notify` → pi-web NoticeShelf / TUI status). Off on 0 hits and tool-loop fingerprint reuse. |
 | `HINDSIGHT_DEBUG` | `false` | Verbose stderr logs |
 | `HINDSIGHT_CHANNEL_ID` / `HINDSIGHT_USER_ID` | — | Multi-axis bank fields |
 
