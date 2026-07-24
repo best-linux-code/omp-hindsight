@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.1 — 2026-07-24
+
+### Changed
+
+- Default auto-recall `recallTypes` is now `["observation"]` (Claude parity; less noise)
+- Override with `HINDSIGHT_RECALL_TYPES` (comma list; `all` / `*` disables filter)
+
+### Fixed
+
+- Tools register with `loadMode: "essential"` so they appear without discovery
+- Retain metadata values are strings (avoids API 422 on `userTurns`)
+
+### Added
+
+- Debug logs for auto-recall inject / skip under `HINDSIGHT_DEBUG=1`
+
 ## 0.1.0 — 2026-07-24
 
 ### Added
