@@ -1,0 +1,65 @@
+{
+  "name": "omp-hindsight",
+  "version": "0.1.0",
+  "description": "Standalone Hindsight long-term memory extension for OhMyPi \u2014 Claude-aligned agent_knowledge_* tools + auto recall/retain",
+  "type": "module",
+  "homepage": "https://github.com/best-linux-code/omp-hindsight#readme",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "skills",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "tsconfig.json"
+  ],
+  "omp": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@oh-my-pi/pi-coding-agent": ">=16"
+  },
+  "peerDependenciesMeta": {
+    "@oh-my-pi/pi-coding-agent": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bugs": {
+    "url": "https://github.com/best-linux-code/omp-hindsight/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/best-linux-code/omp-hindsight.git"
+  },
+  "author": "best-linux-code",
+  "keywords": [
+    "oh-my-pi",
+    "omp",
+    "hindsight",
+    "memory",
+    "agent",
+    "long-term-memory",
+    "extension",
+    "claude"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
