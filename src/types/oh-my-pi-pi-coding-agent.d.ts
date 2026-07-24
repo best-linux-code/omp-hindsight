@@ -42,6 +42,7 @@ declare module "@oh-my-pi/pi-coding-agent" {
 		label: string;
 		description: string;
 		parameters: unknown;
+		loadMode?: "essential" | "discoverable" | string;
 		execute: (
 			toolCallId: string,
 			params: any,

@@ -104,23 +104,28 @@ async function runRetain(
 		await runtime.client.retain(runtime.bankId, content, {
 			context: runtime.config.retainContext || "omp",
 			async: true,
+			// Hindsight API requires metadata values to be strings
 			metadata: {
 				source: "omp-hindsight",
 				reason: opts.reason,
-				userTurns: totalUsers,
+				userTurns: String(totalUsers),
 			},
 		});
 		runtime.lastRetainedUserTurn = totalUsers;
 		if (runtime.config.debug) {
-			// eslint-disable-next-line no-console
 			console.error(
 				`[omp-hindsight] retained ${content.length} chars bank=${runtime.bankId} reason=${opts.reason}`,
 			);
 		}
 	} catch (err) {
 		const msg = err instanceof Error ? err.message : String(err);
-		// eslint-disable-next-line no-console
-		console.error(`[omp-hindsight] retain failed: ${msg}`);
+		const details =
+			err && typeof err === "object" && "details" in err
+				? JSON.stringify((err as { details: unknown }).details)
+				: "";
+		console.error(
+			`[omp-hindsight] retain failed: ${msg}${details ? ` ${details}` : ""}`,
+		);
 	}
 }
 
