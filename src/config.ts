@@ -27,6 +27,8 @@ export interface OmpHindsightOptions {
 	readonly recallTypes?: readonly string[];
 	readonly retainContext?: string;
 	readonly enableKnowledgeTools?: boolean;
+	/** Toast on successful context inject (default true). pi-web → NoticeShelf. */
+	readonly injectToast?: boolean;
 	readonly debug?: boolean;
 }
 
@@ -51,6 +53,7 @@ export interface OmpHindsightConfig {
 	readonly recallTypes: readonly string[];
 	readonly retainContext: string;
 	readonly enableKnowledgeTools: boolean;
+	readonly injectToast: boolean;
 	readonly debug: boolean;
 }
 
@@ -171,6 +174,7 @@ export function loadConfig(options: OmpHindsightOptions = {}): OmpHindsightConfi
 		retainContext: options.retainContext ?? envString("HINDSIGHT_RETAIN_CONTEXT") ?? "omp",
 		enableKnowledgeTools:
 			options.enableKnowledgeTools ?? envBool("HINDSIGHT_ENABLE_KNOWLEDGE_TOOLS", true),
+		injectToast: options.injectToast ?? envBool("HINDSIGHT_INJECT_TOAST", true),
 		debug: options.debug ?? envBool("HINDSIGHT_DEBUG", false),
 	};
 }

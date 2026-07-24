@@ -173,7 +173,7 @@ export function registerHooks(pi: ExtensionAPI, runtime: PluginRuntime): void {
 		}
 	});
 
-	pi.on("context", async (event, _ctx) => {
+	pi.on("context", async (event, ctx) => {
 		if (!isActive(runtime) || !runtime.config.autoRecall) {
 			if (runtime.config.debug) {
 				console.error(
@@ -193,7 +193,7 @@ export function registerHooks(pi: ExtensionAPI, runtime: PluginRuntime): void {
 			return;
 		}
 
-		// Same-turn tool-loop reuse: identical query → skip re-fetch
+		// Same-turn tool-loop reuse: identical query → skip re-fetch (no toast)
 		if (query === runtime.lastRecallFingerprint) {
 			if (runtime.config.debug) {
 				console.error(
@@ -234,6 +234,12 @@ export function registerHooks(pi: ExtensionAPI, runtime: PluginRuntime): void {
 			if (runtime.config.debug) {
 				console.error(
 					`[omp-hindsight] auto-recall INJECT hits=${results.length} bank=${runtime.bankId} blockChars=${block.length}`,
+				);
+			}
+			if (runtime.config.injectToast) {
+				ctx.ui.notify(
+					`omp-hindsight · recalled ${results.length} · bank=${runtime.bankId}`,
+					"info",
 				);
 			}
 			return { messages: next };
