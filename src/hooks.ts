@@ -174,15 +174,34 @@ export function registerHooks(pi: ExtensionAPI, runtime: PluginRuntime): void {
 	});
 
 	pi.on("context", async (event, _ctx) => {
-		if (!isActive(runtime) || !runtime.config.autoRecall) return;
+		if (!isActive(runtime) || !runtime.config.autoRecall) {
+			if (runtime.config.debug) {
+				console.error(
+					`[omp-hindsight] context skip active=${isActive(runtime)} autoRecall=${runtime.config.autoRecall}`,
+				);
+			}
+			return;
+		}
 
 		const messages = event.messages as AgentMessage[];
 		const textMessages = messages as unknown as TextMessage[];
 		const query = composeRecallQuery(textMessages);
-		if (!query.trim()) return;
+		if (!query.trim()) {
+			if (runtime.config.debug) {
+				console.error("[omp-hindsight] context skip: empty recall query");
+			}
+			return;
+		}
 
-		// Dedupe identical consecutive auto-recalls
-		if (query === runtime.lastRecallFingerprint) return;
+		// Same-turn tool-loop reuse: identical query → skip re-fetch
+		if (query === runtime.lastRecallFingerprint) {
+			if (runtime.config.debug) {
+				console.error(
+					`[omp-hindsight] context skip: same-query fingerprint (${query.length} chars)`,
+				);
+			}
+			return;
+		}
 
 		try {
 			await ensureBank(
@@ -201,16 +220,25 @@ export function registerHooks(pi: ExtensionAPI, runtime: PluginRuntime): void {
 			const results = res.results ?? [];
 			if (!results.length) {
 				runtime.lastRecallFingerprint = query;
+				if (runtime.config.debug) {
+					console.error(
+						`[omp-hindsight] auto-recall: 0 hits bank=${runtime.bankId} q=${query.slice(0, 80)}`,
+					);
+				}
 				return;
 			}
 			const body = formatMemories(results);
 			const block = wrapMemoriesBlock(body);
 			const next = injectMemoriesIntoMessages(messages, block);
 			runtime.lastRecallFingerprint = query;
+			if (runtime.config.debug) {
+				console.error(
+					`[omp-hindsight] auto-recall INJECT hits=${results.length} bank=${runtime.bankId} blockChars=${block.length}`,
+				);
+			}
 			return { messages: next };
 		} catch (err) {
 			const msg = err instanceof Error ? err.message : String(err);
-			// eslint-disable-next-line no-console
 			console.error(`[omp-hindsight] auto-recall failed: ${msg}`);
 			return;
 		}
