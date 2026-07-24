@@ -1,5 +1,5 @@
 {
-  "name": "omp-hindsight",
+  "name": "@best-linux-code/omp-hindsight",
   "version": "0.1.0",
   "description": "Standalone Hindsight long-term memory extension for OhMyPi \u2014 Claude-aligned agent_knowledge_* tools + auto recall/retain",
   "type": "module",
@@ -60,6 +60,7 @@
     "claude"
   ],
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   }
 }

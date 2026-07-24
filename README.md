@@ -46,11 +46,21 @@ Claude Code–aligned **`agent_knowledge_*`** tools + automatic recall / retain 
 
 ## Install
 
+> Published on **GitHub Packages** as `@best-linux-code/omp-hindsight`  
+> Registry: `https://npm.pkg.github.com`
+
+```bash
+# one-time: auth to GitHub Packages (PAT with read:packages)
+echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> ~/.npmrc
+echo "@best-linux-code:registry=https://npm.pkg.github.com" >> ~/.npmrc
+```
+
 ### npm (recommended)
 
 ```bash
-npm install omp-hindsight
-# or: pnpm add omp-hindsight / bun add omp-hindsight
+npm install @best-linux-code/omp-hindsight
+# or: pnpm add @best-linux-code/omp-hindsight
+# registry: https://npm.pkg.github.com
 ```
 
 ```jsonc
@@ -58,7 +68,7 @@ npm install omp-hindsight
 {
   "memory": { "backend": "off" },
   "extensions": [
-    "omp-hindsight"
+    "@best-linux-code/omp-hindsight"
   ]
 }
 ```
@@ -79,7 +89,7 @@ OhMyPi resolves the package via its `"omp.extensions": ["./src/index.ts"]` field
 ### Programmatic
 
 ```ts
-import { createOmpHindsightExtension } from "omp-hindsight";
+import { createOmpHindsightExtension } from "@best-linux-code/omp-hindsight";
 
 export default createOmpHindsightExtension({
   hindsightApiUrl: "http://localhost:8888",
